@@ -1,0 +1,7 @@
+pytest ~= 7.4
+click ~= 8.1
+numpy ~= 1.25
+tensorflow ~= 2.11
+matplotlib ~= 3.7
+scikit-learn ~= 1.2
+pandas ~= 2.0
