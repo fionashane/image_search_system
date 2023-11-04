@@ -1,6 +1,8 @@
 import pytest
+import numpy as np
 from image_search import *
 from image_access import *
+from similarity_utility import *
 
 @pytest.fixture
 def image_search_manager():
@@ -52,15 +54,21 @@ def test_index_access():
     assert index_access.get_total_num_images() == 0
 
 def test_image_access():
-    image_access = ImageAccess()
-    assert image_access.read_image_path('example_images/image1.jpg') == imread('example_images/image1.jpg')
+    image_loader = ImreadImageLoader()
+    image_access = ImageAccess(image_loader)
+    image_from_image_access = image_access.read_image_path('example_images/image1.jpg')
+    image_from_imread = imread('example_images/image1.jpg')    
+    assert np.array_equal(image_from_image_access, image_from_imread)
 
 def test_cosine_similarity_metric():
     metric = CosineSimilarityMetric()
     input_labels = ['label1', 'label2']
     other_labels = ['label2', 'label3']
-    similarity = metric.calculate_similarity(input_labels, other_labels)
-    assert similarity > 0.0
+    similarity_result = metric.calculate_similarity(input_labels, other_labels)
+    input_labels_vector = np.array(encode_labels(input_labels)).reshape(1, -1)
+    other_labels_vector = np.array(encode_labels(other_labels)).reshape(1, -1)
+    cosine_similarity_result = cosine_similarity(input_labels_vector, other_labels_vector)[0, 0]
+    assert similarity_result == cosine_similarity_result
 
 def test_similarity_utility():
     metric = CosineSimilarityMetric()
