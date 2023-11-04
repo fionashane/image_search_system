@@ -1,5 +1,6 @@
 import pytest
 from image_search import *
+from image_access import *
 
 @pytest.fixture
 def image_search_manager():
@@ -49,6 +50,10 @@ def test_index_access():
     index_access = IndexAccess()
     index_access.setup_csv_file()
     assert index_access.get_total_num_images() == 0
+
+def test_image_access():
+    image_access = ImageAccess()
+    assert image_access.read_image_path('example_images/image1.jpg') == imread('example_images/image1.jpg')
 
 def test_cosine_similarity_metric():
     metric = CosineSimilarityMetric()
