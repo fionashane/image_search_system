@@ -2,7 +2,13 @@ import pytest
 import numpy as np
 from image_search import *
 from image_access import *
+from index_access import *
 from similarity_utility import *
+from printing_engine import *
+from matching_engine import *
+from object_detection_engine import *
+from image_search_manager import *
+from object_detector import *
 
 @pytest.fixture
 def image_search_manager():
@@ -36,11 +42,13 @@ def test_list_images(image_search_manager):
     image_search_manager.list_images()
 
 def test_default_object_detection_engine():
-    detect_objects = 'mock_detect_objects'
+    image_path = ('example_images/image2.jpg')
+    image_loader = ImreadImageLoader()
+    image_access = ImageAccess(image_loader)
+    image = image_access.read_image_path(image_path)
     engine = DefaultObjectDetectionEngine(detect_objects)
-    image = ('example_images/image2.jpg')
     detected_objects = engine.use_object_detector(image)
-    assert detected_objects == ['person','car','truck']
+    assert np.array_equiv(detected_objects, {'person','car','truck'})
 
 def test_matching_engine():
     engine = MatchingEngine()
@@ -51,7 +59,7 @@ def test_printing_engine():
 def test_index_access():
     index_access = IndexAccess()
     index_access.setup_csv_file()
-    assert index_access.get_total_num_images() == 0
+    assert index_access.get_total_num_images() == 6
 
 def test_image_access():
     image_loader = ImreadImageLoader()

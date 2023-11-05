@@ -1,0 +1,7 @@
+Image_Path,Detected_Objects
+example_images/image1.jpg,"dining table,chair,potted plant"
+example_images/image4.jpg,car
+example_images/image2.jpg,"car,truck,person"
+example_images/image3.jpg,"chair,person"
+example_images/image5.jpg,"car,traffic light,person"
+example_images/image6.jpg,"chair,couch"
