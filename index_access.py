@@ -16,7 +16,7 @@ class IIndexAccess(ABC):
         pass
 
     @abstractmethod
-    def access_matching_images(self, all, term_set, matching_images):
+    def access_matching_images(self, all, term_set):
         pass
 
     @abstractmethod
@@ -24,7 +24,7 @@ class IIndexAccess(ABC):
         pass
 
     @abstractmethod
-    def calculate_similarity_scores(self, input_labels, similarity_scores):
+    def calculate_similarity_scores(self, input_labels):
         pass
 
     @abstractmethod
@@ -55,7 +55,8 @@ class IndexAccess(IIndexAccess):
             except (csv.Error, IOError) as e:
                 print(f"Error: {e}")
 
-    def access_matching_images(self, all, term_set, matching_images):
+    def access_matching_images(self, all, term_set):
+        matching_images = []
         with open(self.csv_file, mode='r') as file:
             try:
                 reader = csv.DictReader(file)
@@ -80,11 +81,11 @@ class IndexAccess(IIndexAccess):
             except (csv.Error, IOError) as e:
                 print(f"Error: {e}")
 
-    def calculate_similarity_scores(self, input_labels, similarity_scores):
+    def calculate_similarity_scores(self, input_labels):
         with open(self.csv_file, mode='r') as file:
             try:
                 reader = csv.DictReader(file)
-                similarity_scores = self.similarity_utility.process_similarity_scores(reader, input_labels, similarity_scores)
+                similarity_scores = self.similarity_utility.process_similarity_scores(reader, input_labels)
             except (csv.Error, IOError) as e:
                 print(f"Error: {e}")
         return similarity_scores

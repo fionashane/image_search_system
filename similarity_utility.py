@@ -23,7 +23,7 @@ class CosineSimilarityMetric(SimilarityMetric):
 class ISimilarityUtility(ABC):
 
     @abstractmethod
-    def process_similarity_scores(self, reader, input_labels, similarity_scores):
+    def process_similarity_scores(self, reader, input_labels):
         pass
 
 class SimilarityUtility():
@@ -31,7 +31,8 @@ class SimilarityUtility():
     def __init__(self, similarity_metric):
         self.similarity_metric = similarity_metric
 
-    def process_similarity_scores(self, reader, input_labels, similarity_scores):
+    def process_similarity_scores(self, reader, input_labels):
+        similarity_scores = []
         for row in reader:
             other_image_path = row["Image_Path"]
             other_labels = row["Detected_Objects"].split(",")

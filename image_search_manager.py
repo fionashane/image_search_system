@@ -30,8 +30,7 @@ class ImageSearchManager():
     def retrieve_similar_images(self, k, image_path):
         image = self.image_access.read_image_path(image_path)
         input_labels = self.object_detection_engine.use_object_detector(image)
-        similarity_scores = []
-        similarity_scores = self.matching_engine.get_similar_images(similarity_scores, input_labels)
+        similarity_scores = self.matching_engine.get_similar_images(input_labels)
         self.printing_engine.print_similar_images(image_path, similarity_scores, k)
 
     def list_images(self):
